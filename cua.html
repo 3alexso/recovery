@@ -20,29 +20,55 @@
 html,body{margin:0;height:100%;overflow:hidden;font-family:var(--font);color:var(--sf-text);background:var(--sf-bg);-webkit-font-smoothing:antialiased}
 button{font-family:inherit}
 
-/* ===================== Page-state toggles ===================== */
-.toggles{position:fixed;top:0;left:0;right:0;height:40px;background:#131e29;color:#fff;display:flex;align-items:center;gap:24px;padding:0 24px;z-index:60;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;font-size:13px;box-shadow:0 1px 0 #ffffff14;white-space:nowrap;overflow:hidden}
-.toggles__label{opacity:.55;text-transform:uppercase;letter-spacing:.06em;font-size:11px;font-weight:700;flex-shrink:0}
-.toggles label{display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none;font-weight:600;flex-shrink:0;line-height:1}
-.toggles input{width:16px;height:16px;accent-color:var(--accent);cursor:pointer;margin:0;flex-shrink:0}
-.toggles small{opacity:.55;font-weight:400;font-size:12px}
-.toggles__hint{margin-left:auto;opacity:.5;font-size:11px;overflow:hidden;text-overflow:ellipsis;min-width:0}
-@media (max-width:1500px){.toggles small{display:none}}
-@media (max-width:1000px){.toggles__hint{display:none}}
-
 /* ===================== SuccessFactors shell ===================== */
-.shell{position:fixed;top:40px;left:0;right:0;height:52px;background:var(--sf-shell);display:flex;align-items:center;padding:0 48px 0 58px;z-index:50}
+.shell{position:fixed;top:0;left:0;right:0;height:52px;background:var(--sf-shell);display:flex;align-items:center;padding:0 48px 0 58px;z-index:50}
 .shell__logo{display:flex;align-items:center;height:40px}
 .shell__app{color:#fff;font-weight:700;font-size:16px;margin-left:34px;display:flex;align-items:center;gap:8px;white-space:nowrap}
+.shell__app{cursor:pointer;position:relative;padding:8px 10px;margin-left:24px;border-radius:8px;user-select:none;background:none;border:none;color:#fff;font:inherit;font-weight:700;font-size:16px;outline:none}
+.shell__app:focus-visible{box-shadow:0 0 0 2px #fff8}
+.shell__app:hover,.shell__app.is-open{background:#ffffff1a}
+.shell__app svg{transition:transform .2s}
+.shell__app.is-open svg{transform:rotate(180deg)}
+.appmenu{position:fixed;top:56px;z-index:70;min-width:280px;background:#fff;border-radius:10px;box-shadow:0 10px 30px #0000003d,0 0 0 1px #0000000f;padding:6px 0;font-size:14px;color:var(--sf-text);animation:menu-in .15s ease-out}
+@keyframes menu-in{0%{opacity:0;transform:translateY(-4px)}}
+.appmenu__title{padding:8px 16px 6px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--sf-label)}
+.appmenu__item{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:10px 16px;border:none;background:none;cursor:pointer;color:var(--sf-text);font-size:14px}
+.appmenu__item:hover{background:#eef4fc;color:var(--sf-link)}
+.appmenu__item.is-active{font-weight:700;color:var(--sf-link)}
+.appmenu__item.is-disabled{opacity:.45;cursor:default}
+.appmenu__item.is-disabled:hover{background:none;color:var(--sf-text)}
+.appmenu__dot{width:6px;height:6px;border-radius:50%;background:currentColor;opacity:0;flex-shrink:0}
+.appmenu__item.is-active .appmenu__dot{opacity:1}
 .shell__search{position:absolute;left:50%;transform:translateX(-50%);width:560px;max-width:34vw;height:36px;border-radius:18px;background:var(--sf-search);border:1px solid var(--sf-search-border);display:flex;align-items:center;padding:0 14px;color:#fff;font-style:italic;font-size:14px;white-space:nowrap;overflow:hidden}
 .shell__right{margin-left:auto;display:flex;align-items:center;gap:24px}
 .shell__ico{color:#fff;display:flex;position:relative}
 .shell__badge{position:absolute;top:-8px;right:-8px;background:#d3393d;color:#fff;font-size:10px;font-weight:700;border-radius:8px;min-width:15px;height:15px;display:flex;align-items:center;justify-content:center;padding:0 3px}
+/* light-version toggle (lazy load) */
+.lite{display:flex;align-items:center;gap:8px;color:#fff;font-size:13px;font-weight:600;cursor:pointer;user-select:none;white-space:nowrap}
+.lite input{position:absolute;opacity:0;width:0;height:0}
+.lite__sw{position:relative;width:34px;height:18px;border-radius:9px;background:#ffffff33;transition:background .2s;flex-shrink:0}
+.lite__sw:after{content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#fff;transition:transform .2s}
+.lite input:checked+.lite__sw{background:#4fd36b}
+.lite input:checked+.lite__sw:after{transform:translateX(16px)}
+.lite input:focus-visible+.lite__sw{box-shadow:0 0 0 2px #fff8}
+/* language flag menu */
+.langbtn{display:flex;align-items:center;gap:6px;background:none;border:none;cursor:pointer;padding:4px 6px;border-radius:6px;color:#fff}
+.langbtn:hover,.langbtn.is-open{background:#ffffff1a}
+.flag{width:24px;height:16px;border-radius:3px;display:block;box-shadow:0 0 0 1px #0003}
+.langmenu{position:fixed;top:48px;z-index:70;min-width:180px;background:#fff;border-radius:10px;box-shadow:0 10px 30px #0000003d,0 0 0 1px #0000000f;padding:6px 0;font-size:14px;animation:menu-in .15s ease-out}
+.langmenu__item{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:9px 14px;border:none;background:none;cursor:pointer;color:var(--sf-text);font-size:14px;font-family:inherit}
+.langmenu__item:hover{background:#eef4fc;color:var(--sf-link)}
+.langmenu__item.is-active{font-weight:700;color:var(--sf-link)}
+/* job history header row + Full History / Summary button */
+.jh-head{display:flex;align-items:center;justify-content:space-between;margin:20px 0 10px}
+.jh-head .subhead{margin:0}
+.btn-sf{height:30px;padding:0 12px;border-radius:8px;border:1px solid var(--sf-link);background:#fff;color:var(--sf-link);font-weight:700;font-size:14px;cursor:pointer;font-family:inherit}
+.btn-sf:hover{background:#eef4fc}
 .avatar{border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;flex-shrink:0;overflow:hidden}
 .avatar--me{width:32px;height:32px;background:linear-gradient(135deg,#c76b5a,#7d3b2f);font-size:12px;box-shadow:0 0 0 2px #fff}
 
 /* ===================== Object page ===================== */
-#scroller{position:fixed;top:92px;left:0;right:0;bottom:0;overflow-y:auto;overflow-x:hidden}
+#scroller{position:fixed;top:52px;left:0;right:0;bottom:0;overflow-y:auto;overflow-x:hidden}
 #scroller::-webkit-scrollbar{width:10px}
 #scroller::-webkit-scrollbar-thumb{background:#7d8a96;border-radius:6px;border:2px solid var(--sf-bg)}
 .op-head{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--sf-border)}
@@ -109,17 +135,10 @@ button{font-family:inherit}
 
 .fab{position:fixed;left:14px;bottom:20px;width:46px;height:46px;border-radius:50%;background:#232426;border:1px solid #4a4c50;display:flex;align-items:center;justify-content:center;z-index:30;box-shadow:0 2px 6px #0004}
 </style>
-  <script type="text/javascript">(function() {var walkme = document.createElement('script'); walkme.type = 'text/javascript'; walkme.async = true; walkme.src = 'https://cdn.walkmeqa.com/users/89ae5408a13846f0b04fe126eefd49f1/test/walkme_89ae5408a13846f0b04fe126eefd49f1_https.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(walkme, s);window._walkmeConfig = {smartLoad:true}; })();</script>
+  <script type="text/javascript">(function() {var walkme = document.createElement('script'); walkme.type = 'text/javascript'; walkme.async = true; walkme.src = 'https://cdn.walkmeqa.com/users/89ae5408a13846f0b04fe126eefd49f1/test/walkme_89ae5408a13846f0b04fe126eefd49f1_https.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(walkme, s); window._walkmeConfig = {smartLoad:true}; })();</script>
 </head>
 <body>
 
-<div class="toggles" id="toggles">
-  <span class="toggles__label">Page state</span>
-  <label title="Time Information moves last and renders on scroll"><input type="checkbox" id="chk-lazy" data-flag="lazy"> Lazy load <small>— cards render on scroll</small></label>
-  <label title="Switch the UI to French"><input type="checkbox" id="chk-lang" data-flag="lang"> French <small>— UI language</small></label>
-  <label title="Job History grows from 3 to 6 rows (new top row, Promotion, new bottom row)"><input type="checkbox" id="chk-table" data-flag="table"> Update Job History <small>— 3 extra rows</small></label>
-  <span class="toggles__hint">Unchecked = original · checked = changed</span>
-</div>
 <header class="shell" id="shell"></header>
 <div id="scroller">
   <div class="op-head" id="ophead"></div>
@@ -131,9 +150,9 @@ button{font-family:inherit}
 <script>
 /* =====================================================================
    SuccessFactors "Job Information" mock page with three switchable states:
-     Lazy load  · Time Information moves from 2nd to last and renders on scroll
-     French     · French UI
-     Update Job History · Job History grows from 3 to 6 rows (new top row, Promotion, new bottom row)
+     Light version (#chk-lazy toggle in the shell) · Time Information moves from 2nd to last and renders on scroll
+     Language (#langbtn flag menu, #lang-en / #lang-fr) · English / French UI
+     Full History / Summary (#jh-toggle next to Job History) · table grows from 3 to 6 rows
    Selector cheat-sheet (jQuery-friendly):
      #sec-<key>, #card-<key>              section / card   (keys: position, time, organization, job)
      #tab-<key>                           tab button
@@ -151,15 +170,16 @@ const STR = {
     app: "My Employee File", search: "Search for actions or people",
     bc: ["People Profile", "Job Data", "Job Information"], title: "Job Information", asof: "As of Today",
     tabs: { position: "Position Information", organization: "Organization Information", job: "Job Information", time: "Time Information" },
-    showEmpty: "Show Empty Fields", jobHistory: "Job History",
+    showEmpty: "Show Empty Fields", jobHistory: "Job History", sections: "Sections", notLoaded: "loads on scroll", fullHistory: "Full History", summary: "Summary", lite: "Light version", langName: "English",
   },
   fr: {
     app: "Mon dossier collaborateur", search: "Rechercher des actions ou des personnes",
     bc: ["Profil de la personne", "Données de poste", "Informations sur l'emploi"], title: "Informations sur l'emploi", asof: "À ce jour",
     tabs: { position: "Informations sur le poste", organization: "Informations sur l'organisation", job: "Informations sur l'emploi", time: "Informations relatives au temps" },
-    showEmpty: "Afficher les champs vides", jobHistory: "Historique de l'emploi",
+    showEmpty: "Afficher les champs vides", jobHistory: "Historique de l'emploi", sections: "Sections", notLoaded: "se charge au défilement", fullHistory: "Historique complet", summary: "Résumé", lite: "Version allégée", langName: "Français",
   },
 };
+const LANGS = [["en", "flagUS"], ["fr", "flagFR"]];
 const EMP = { name: "Emily Carter", initials: "EC" };
 const SUP = { name: "Michael Johnson", initials: "MJ", role: { en: "Software Developer Team Lead", fr: "Chef d'équipe développement logiciel" } };
 
@@ -227,7 +247,7 @@ const ORDER_LAZY = ["position", "organization", "job", "time"];
 const LAZY_START = ["position", "organization"]; // cards present before any scrolling when lazy load is on
 
 /* ---------------- state ---------------- */
-const S = { lang: "en", loaded: [], loading: false, collapsed: false, flags: { lazy: false, lang: false, table: false } };
+const S = { lang: "en", loaded: [], loading: false, collapsed: false, menuOpen: false, langOpen: false, flags: { lazy: false, lang: false, table: false } };
 const FLAGS_KEY = "sf-demo-flags";
 try { Object.assign(S.flags, JSON.parse(localStorage.getItem(FLAGS_KEY) || "{}")); } catch (e) {}
 const saveFlags = () => { try { localStorage.setItem(FLAGS_KEY, JSON.stringify(S.flags)); } catch (e) {} };
@@ -246,6 +266,8 @@ const I = {
   check: `<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="#fff" stroke-width="1.6"/><path d="M6.5 10.2l2.4 2.4 4.6-4.8" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
   chat: `<svg width="22" height="20" viewBox="0 0 22 20" fill="none"><path d="M3 9a8 7 0 1116 0 8 7 0 01-11.3 6.3L3 17l1.4-3.5A6.6 6.6 0 013 9z" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/><circle cx="11" cy="7.6" r="2" stroke="#fff" stroke-width="1.4"/><path d="M7.6 12.4c.7-1.4 1.9-2.1 3.4-2.1s2.7.7 3.4 2.1" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/></svg>`,
   bell: `<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 14V9a5 5 0 0110 0v5l1.5 1.5h-13L5 14z" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/><path d="M8.2 17.5a2 2 0 003.6 0" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg>`,
+  flagUS: `<svg class="flag" viewBox="0 0 24 16"><rect width="24" height="16" fill="#fff"/><g fill="#b22234"><rect y="0" width="24" height="1.23"/><rect y="2.46" width="24" height="1.23"/><rect y="4.92" width="24" height="1.23"/><rect y="7.38" width="24" height="1.23"/><rect y="9.85" width="24" height="1.23"/><rect y="12.31" width="24" height="1.23"/><rect y="14.77" width="24" height="1.23"/></g><rect width="10" height="8.6" fill="#3c3b6e"/><g fill="#fff"><circle cx="2" cy="1.8" r=".55"/><circle cx="4" cy="1.8" r=".55"/><circle cx="6" cy="1.8" r=".55"/><circle cx="8" cy="1.8" r=".55"/><circle cx="3" cy="3.5" r=".55"/><circle cx="5" cy="3.5" r=".55"/><circle cx="7" cy="3.5" r=".55"/><circle cx="2" cy="5.2" r=".55"/><circle cx="4" cy="5.2" r=".55"/><circle cx="6" cy="5.2" r=".55"/><circle cx="8" cy="5.2" r=".55"/><circle cx="3" cy="6.9" r=".55"/><circle cx="5" cy="6.9" r=".55"/><circle cx="7" cy="6.9" r=".55"/></g></svg>`,
+  flagFR: `<svg class="flag" viewBox="0 0 24 16"><rect width="8" height="16" fill="#0055a4"/><rect x="8" width="8" height="16" fill="#fff"/><rect x="16" width="8" height="16" fill="#ef4135"/></svg>`,
   logo: `<svg width="124" height="40" viewBox="0 0 124 40" fill="none"><text x="0" y="29" fill="#fff" font-family="Arial Rounded MT Bold,Nunito,Arial,sans-serif" font-weight="700" font-size="30" letter-spacing="-1">walk</text><path d="M76 6h34a10 10 0 0110 10v8a10 10 0 01-10 10H92l-6 5v-5h-10a10 10 0 01-10-10v-8a10 10 0 0110-10z" fill="#fff"/><text x="74.5" y="29" fill="#0e0e36" font-family="Arial Rounded MT Bold,Nunito,Arial,sans-serif" font-weight="700" font-size="27" letter-spacing="-1">me</text></svg>`,
 };
 
@@ -253,9 +275,11 @@ const I = {
 function renderShell() {
   $("#shell").innerHTML = `
     <div class="shell__logo" id="shell-logo">${I.logo}</div>
-    <div class="shell__app" id="shell-app">${t("app")} ${I.chevDown("#fff", 13)}</div>
+    <button class="shell__app" id="shell-app" type="button" aria-haspopup="menu" aria-expanded="false">${t("app")} ${I.chevDown("#fff", 13)}</button>
     <div class="shell__search" id="shell-search">${t("search")}</div>
     <div class="shell__right">
+      <label class="lite" id="lite" title="${t("lite")}"><input type="checkbox" id="chk-lazy" data-flag="lazy" ${S.flags.lazy ? "checked" : ""}><span class="lite__sw"></span>${t("lite")}</label>
+      <button class="langbtn" id="langbtn" type="button" aria-haspopup="menu" aria-expanded="false" title="${t("langName")}">${I[S.flags.lang ? "flagFR" : "flagUS"]}${I.chevDown("#fff", 11)}</button>
       <span class="shell__ico" id="ico-todo">${I.check}</span>
       <span class="shell__ico" id="ico-chat">${I.chat}</span>
       <span class="shell__ico" id="ico-bell">${I.bell}<span class="shell__badge" id="bell-badge">8</span></span>
@@ -272,6 +296,9 @@ function renderShell() {
     <div class="collapse"><span class="collapse__line"></span><button class="collapse__btn" id="collapse-btn" type="button" aria-label="Collapse header" aria-expanded="true">${I.chevDown("#005ace", 12)}</button><span class="collapse__line"></span></div>
     <div class="tabs" id="tabs">${order().map((s) => `<button class="tab tab--${s}" id="tab-${s}" data-tab="${s}">${t("tabs")[s]}</button>`).join("")}</div>`;
   document.documentElement.lang = S.lang;
+  $("#shell-app").onclick = (e) => { e.stopPropagation(); S.menuOpen ? closeAppMenu() : openAppMenu(); };
+  $("#chk-lazy").onchange = (e) => setFlag("lazy", e.target.checked);
+  $("#langbtn").onclick = (e) => { e.stopPropagation(); S.langOpen ? closeLangMenu() : openLangMenu(); };
   $("#ophead").querySelectorAll(".tab").forEach((b) => b.onclick = () => userGoToTab(b.dataset.tab));
   $("#ophead").classList.toggle("is-collapsed", S.collapsed);
   const cb = $("#collapse-btn"); cb.setAttribute("aria-expanded", String(!S.collapsed));
@@ -282,6 +309,49 @@ function renderShell() {
     setTimeout(() => { updateStick(); spy(); }, 320);
   };
 }
+
+/* ---------------- "My Employee File" menu: lists all sections, click scrolls to one ---------------- */
+function openAppMenu() {
+  closeAppMenu();
+  S.menuOpen = true;
+  const btn = $("#shell-app"); btn.classList.add("is-open"); btn.setAttribute("aria-expanded", "true");
+  const active = $("#ophead .tab.is-active")?.dataset.tab;
+  const m = document.createElement("div");
+  m.className = "appmenu"; m.id = "appmenu"; m.setAttribute("role", "menu");
+  m.style.left = btn.getBoundingClientRect().left + "px";
+  m.innerHTML = `<div class="appmenu__title">${t("sections")}</div>` + order().map((k) => {
+    const loaded = S.loaded.includes(k);
+    return `<button class="appmenu__item${k === active ? " is-active" : ""}${loaded ? "" : " is-disabled"}" id="menu-${k}" data-menu="${k}" role="menuitem" type="button">
+      <span class="appmenu__dot"></span>${t("tabs")[k]}${loaded ? "" : ` <small>(${t("notLoaded")})</small>`}</button>`;
+  }).join("");
+  m.onclick = (e) => e.stopPropagation();
+  m.querySelectorAll("[data-menu]").forEach((b) => b.onclick = () => { if (S.loaded.includes(b.dataset.menu)) { userGoToTab(b.dataset.menu); closeAppMenu(); } });
+  document.body.appendChild(m);
+}
+function openLangMenu() {
+  closeAppMenu(); closeLangMenu();
+  S.langOpen = true;
+  const btn = $("#langbtn"); btn.classList.add("is-open"); btn.setAttribute("aria-expanded", "true");
+  const m = document.createElement("div");
+  m.className = "langmenu"; m.id = "langmenu"; m.setAttribute("role", "menu");
+  m.innerHTML = LANGS.map(([code, flag]) => `<button class="langmenu__item${S.lang === code ? " is-active" : ""}" id="lang-${code}" data-lang="${code}" role="menuitem" type="button">${I[flag]}${STR[code].langName}</button>`).join("");
+  m.onclick = (e) => e.stopPropagation();
+  m.querySelectorAll("[data-lang]").forEach((b) => b.onclick = () => { closeLangMenu(); setFlag("lang", b.dataset.lang === "fr"); });
+  document.body.appendChild(m);
+  const r = btn.getBoundingClientRect(); m.style.left = Math.min(r.left, window.innerWidth - m.offsetWidth - 12) + "px";
+}
+function closeLangMenu() {
+  S.langOpen = false;
+  $("#langmenu")?.remove();
+  const btn = $("#langbtn"); if (btn) { btn.classList.remove("is-open"); btn.setAttribute("aria-expanded", "false"); }
+}
+function closeAppMenu() {
+  S.menuOpen = false;
+  $("#appmenu")?.remove();
+  const btn = $("#shell-app"); if (btn) { btn.classList.remove("is-open"); btn.setAttribute("aria-expanded", "false"); }
+}
+document.addEventListener("click", () => { closeAppMenu(); closeLangMenu(); });
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") { closeAppMenu(); closeLangMenu(); } });
 
 /* ---------------- render: sections ---------------- */
 function fieldHTML(row, skeleton) {
@@ -295,7 +365,8 @@ function fieldHTML(row, skeleton) {
 }
 function jobHistoryHTML() {
   const fr = S.lang === "fr";
-  return `<h3 class="subhead" id="jobHistoryTitle" data-id="jh-title" style="display:inline-block">${t("jobHistory")}</h3>
+  return `<div class="jh-head"><h3 class="subhead" id="jobHistoryTitle" data-id="jh-title">${t("jobHistory")}</h3>
+      <button class="btn-sf" id="jh-toggle" type="button" data-flag="table" aria-pressed="${S.flags.table}">${S.flags.table ? t("summary") : t("fullHistory")}</button></div>
     <div class="card card--table" id="card-jobHistory" style="padding:6px 16px 6px">
       <table class="tbl" id="jobHistoryTable"><thead><tr id="jh-head">${JH_COLS.map((c) => `<th id="jh-h-${c[0]}" class="col-${c[0]}" data-col="${c[0]}"><span data-id="h-${c[0]}">${fr ? c[2] : c[1]}</span></th>`).join("")}</tr></thead>
       <tbody id="jh-body">${jhRows().map((r, i) => `<tr id="jh-row-${i}" class="jh-row" data-row="${i}">${r.map((v, j) => `<td id="jh-${i}-${JH_COLS[j][0]}" class="col-${JH_COLS[j][0]}" data-row="${i}" data-col="${JH_COLS[j][0]}"><span data-id="c-${i}-${JH_COLS[j][0]}">${v}</span></td>`).join("")}</tr>`).join("")}</tbody></table>
@@ -314,6 +385,7 @@ function appendSection(key, opts = {}) {
   const wrap = document.createElement("div");
   wrap.innerHTML = sectionHTML(key, opts);
   const sec = wrap.firstElementChild;
+  sec.querySelector("#jh-toggle")?.addEventListener("click", () => setFlag("table", !S.flags.table));
   if (opts.animate) sec.classList.add("section--in");
   sectionsEl.appendChild(sec);
   S.loaded.push(key);
@@ -368,7 +440,7 @@ window.addEventListener("resize", updateStick);
 /* ---------------- build page ---------------- */
 // keep = { sec, offset }: rebuild the page but stay where the user is (section + offset within it)
 function buildPage(keep = null) {
-  runId++;
+  runId++; closeAppMenu(); closeLangMenu();
   S.lang = S.flags.lang ? "fr" : "en"; S.loaded = []; S.loading = false;
   sectionsEl.innerHTML = "";
   renderShell(); updateStick();
@@ -383,14 +455,12 @@ function currentPosition() {
   return { sec, offset: Math.max(0, scroller.scrollTop - sectionScrollTop(sec)) };
 }
 
-/* ---------------- page-state toggles ---------------- */
-function renderToggles() {
-  document.querySelectorAll("#toggles [data-flag]").forEach((c) => c.checked = !!S.flags[c.dataset.flag]);
-}
-document.querySelectorAll("#toggles [data-flag]").forEach((c) => c.onchange = () => {
-  S.flags[c.dataset.flag] = c.checked; saveFlags();
+/* ---------------- page-state flags (light version / language / full history) ---------------- */
+function setFlag(flag, value) {
+  S.flags[flag] = !!value; saveFlags();
   buildPage(currentPosition());
-});
+}
+function renderToggles() {} // controls are rendered inside the shell / sections
 
 document.fonts?.ready.then(() => { updateStick(); spy(); });
 buildPage();
