@@ -149,7 +149,7 @@ button{font-family:inherit}
 <script>
 /* =====================================================================
    SuccessFactors "Job Information" mock page with three switchable states:
-     Light version (#chk-lazy toggle in the shell) · Time Information moves from 2nd to 3rd; cards after the first two render on scroll
+     Light version (#chk-lazy toggle in the shell) · only the first two cards render up front, the rest on scroll
      Language (#langbtn flag menu, #lang-en / #lang-fr) · English / French UI
      Full History / Summary (#jh-toggle next to Job History) · table grows from 3 to 6 rows
    Selector cheat-sheet (jQuery-friendly):
@@ -240,9 +240,9 @@ const JH_ROWS_CHANGED = [
   ...JH_ROWS_ORIGINAL,
   ["Jun 3, 2024", "Hire", "Intern Hire", "Software Engineering Intern", "David Anderson"],
 ];
-// Original page: Time Information is the 2nd card. In Light version it is the 3rd card and renders on scroll (with skeleton values first).
-const ORDER_ORIGINAL = ["position", "time", "organization", "job", "history"];
-const ORDER_LAZY = ["position", "organization", "time", "job", "history"];
+// Same card order in both versions; Time Information is the 4th card. In Light version only the first two cards render up front, the rest on scroll (Time shows skeleton values first).
+const ORDER_ORIGINAL = ["position", "organization", "job", "time", "history"];
+const ORDER_LAZY = ORDER_ORIGINAL;
 const LAZY_START = ["position", "organization"]; // cards present before any scrolling when lazy load is on
 
 /* ---------------- state ---------------- */
