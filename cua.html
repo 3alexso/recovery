@@ -134,7 +134,8 @@ button{font-family:inherit}
 
 .fab{position:fixed;left:14px;bottom:20px;width:46px;height:46px;border-radius:50%;background:#232426;border:1px solid #4a4c50;display:flex;align-items:center;justify-content:center;z-index:30;box-shadow:0 2px 6px #0004}
 </style>
-    <script type="text/javascript">(function() {var walkme = document.createElement('script'); walkme.type = 'text/javascript'; walkme.async = true; walkme.src = 'https://cdn.walkmeqa.com/users/89ae5408a13846f0b04fe126eefd49f1/test/walkme_89ae5408a13846f0b04fe126eefd49f1_https.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(walkme, s); window._walkmeConfig = {smartLoad:true}; })();</script>
+      <script type="text/javascript">(function() {var walkme = document.createElement('script'); walkme.type = 'text/javascript'; walkme.async = true; walkme.src = 'https://cdn.walkmeqa.com/users/89ae5408a13846f0b04fe126eefd49f1/test/walkme_89ae5408a13846f0b04fe126eefd49f1_https.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(walkme, s); window._walkmeConfig = {smartLoad:true}; })();</script>
+
 </head>
 <body>
 
@@ -334,9 +335,30 @@ function openLangMenu() {
   m.className = "langmenu"; m.id = "langmenu"; m.setAttribute("role", "menu");
   m.innerHTML = LANGS.map(([code, flag]) => `<button class="langmenu__item${S.lang === code ? " is-active" : ""}" id="lang-${code}" data-lang="${code}" role="menuitem" type="button">${I[flag]}${STR[code].langName}</button>`).join("");
   m.onclick = (e) => e.stopPropagation();
-  m.querySelectorAll("[data-lang]").forEach((b) => b.onclick = () => { closeLangMenu(); setFlag("lang", b.dataset.lang === "fr"); });
+  m.querySelectorAll("[data-lang]").forEach((b) => b.onclick = () => {
+    closeLangMenu();
+    const code = b.dataset.lang; if (code === S.lang) return;
+    setFlag("lang", code === "fr");
+    notifyWalkMeLanguage(code);
+  });
   document.body.appendChild(m);
   const r = btn.getBoundingClientRect(); m.style.left = Math.min(r.left, window.innerWidth - m.offsetWidth - 12) + "px";
+}
+// Tell WalkMe about the new UI language: WalkMeAPI.changeLanguage('en' | 'fr')
+const walkMeReady = () => typeof window.WalkMeAPI !== "undefined" && typeof window.WalkMeAPI.changeLanguage === "function";
+function notifyWalkMeLanguage(code) {
+  if (walkMeReady()) window.WalkMeAPI.changeLanguage(code);
+  else console.warn(`WalkMeAPI.changeLanguage('${code}') skipped — WalkMeAPI is not available on this page`);
+}
+// On page load: push the current UI language to WalkMe. The snippet loads asynchronously, so wait for WalkMeAPI (up to ~20s).
+function notifyWalkMeLanguageOnLoad() {
+  const started = Date.now();
+  const tick = () => {
+    if (walkMeReady()) { window.WalkMeAPI.changeLanguage(S.lang); return; }
+    if (Date.now() - started > 20000) { console.warn(`WalkMeAPI.changeLanguage('${S.lang}') skipped on load — WalkMeAPI did not become available`); return; }
+    setTimeout(tick, 250);
+  };
+  tick();
 }
 function closeLangMenu() {
   S.langOpen = false;
@@ -489,6 +511,7 @@ function renderToggles() {} // controls are rendered inside the shell / sections
 
 document.fonts?.ready.then(() => { updateStick(); spy(); });
 buildPage();
+notifyWalkMeLanguageOnLoad();
 </script>
 </body>
 </html>
